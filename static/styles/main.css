@@ -1,0 +1,87 @@
+body{
+    font-family: sans-serif, 'Arial',YuGothic,'Yu Gothic','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','メイリオ', Meiryo,'ＭＳ ゴシック';
+}
+
+.disp_media_url {
+    height: 90px;
+    width: 160px;
+    margin-left: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+@media screen and (min-width:480px){
+    body{
+        font-family: sans-serif, 'Arial',YuGothic,'Yu Gothic','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','メイリオ', Meiryo,'ＭＳ ゴシック';
+        font-size: 1.2rem;
+    }
+
+    .disp_media_url {
+        height: 90px;
+        width: 160px;
+        margin-left: auto;
+        position: relative;
+        overflow: hidden;
+    }
+}
+
+@media screen and (min-width:768px){
+    body{
+        font-family: sans-serif, 'Arial',YuGothic,'Yu Gothic','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','メイリオ', Meiryo,'ＭＳ ゴシック';
+        margin-left: 76px;
+        margin-right: 76px;
+        font-size: 1rem;
+    }
+
+    .disp_media_url {
+        height: 90px;
+        width: 160px;
+        margin-left: auto;
+        position: relative;
+        overflow: hidden;
+    }
+}
+
+@media screen and (min-width:1028px){
+    body{
+        font-family: sans-serif, 'Arial',YuGothic,'Yu Gothic','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','メイリオ', Meiryo,'ＭＳ ゴシック';
+        font-size: 0.8rem;
+        margin-left: 102px;
+        margin-right: 102px;
+    }
+
+    .disp_media_url {
+        height: 100px;
+        width: 200px;
+        margin-left: auto;
+        position: relative;
+        overflow: hidden;
+    }
+}
+
+.disp_tweet {
+    margin: 15px;
+    padding: 15px;
+    background: #b0c4de;
+    border-radius: 18px;
+}
+
+.disp_text {
+    float: left;
+}
+
+h1 {
+    color: #FFFFFF;
+    background: #00aced;
+    border: solid 3px #00aced;
+    padding: 0.5em;
+    border-radius: 0.5em;
+}
+
+p.disp_user_info {
+    border-bottom: 1px solid black;
+}
+
+input[type = "text"]#tweet_content {
+    width: 570px;
+}

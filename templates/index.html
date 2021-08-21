@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../static/styles/main.css" />
+    <script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+  </head>
+  <body>
+    <h1>TweetGetter</h1>
+      <form action="/" method="get">
+        <input type="text" name="input_word" placeholder="検索キーワード" value="{{ last_form_settings['last_input'] }}">
+        <input type="radio" name="search_mode" value="free_search_mode" {% if last_form_settings['last_search_mode'] == 'free_search_mode' %}checked{% endif %}>フリーワード検索
+        <input type="radio" name="search_mode" value="user_search_mode" {% if last_form_settings['last_search_mode'] == 'user_search_mode' %}checked{% endif %}>ユーザーID検索
+        <p>
+          <input type="checkbox" name="more_tweet_mode" value="checked" {{ last_form_settings['last_more_tweet_mode'] }}>取得件数ブースト
+        </p>
+        <p>
+          <input type="radio" name="media_mode" value="media_mode_off" {% if last_form_settings['last_media_mode'] == 'media_mode_off' %}checked{% endif %}>メディアモードオフ
+          <input type="radio" name="media_mode" value="media_mode_media" {% if last_form_settings['last_media_mode'] == 'media_mode_media' %}checked{% endif %}>画像/動画を持つツイートのみ表示
+          <input type="radio" name="media_mode" value="media_mode_images" {% if last_form_settings['last_media_mode'] == 'media_mode_images' %}checked{% endif %}>画像を持つツイートのみ表示
+          <input type="radio" name="media_mode" value="media_mode_videos" {% if last_form_settings['last_media_mode'] == 'media_mode_videos' %}checked{% endif %}>動画を持つツイートのみ表示
+        </p>
+        <p>
+          <input type="radio" name="mode_option" value="off" {% if last_form_settings['last_mode_option'] == 'off' %}checked{% endif %}>Off
+          <input type="radio" name="mode_option" value="blind_url_mode" {% if last_form_settings['last_mode_option'] == 'blind_url_mode' %}checked{% endif %}>URL付きツイート非表示
+          <input type="radio"name="mode_option" value="detail_view_mode" {% if last_form_settings['last_mode_option'] == 'detail_view_mode' %}checked{% endif %}>ツイート詳細表示
+        </p>
+        <p>
+          <input type="submit" name="button_cmd" value="検索">
+          <input type="submit" name="button_cmd" value="CSVダウンロード">
+          <input type="submit" name="button_cmd" value="TEXTダウンロード">
+        </p>
+      </form>
+      <form action="/" method="post">
+        <input type="submit" name="set_hash_tag" value="ランダムハッシュタグ設定">
+      </form>
+    <p class="disp_user_info">UserID : {{ user_id }}</p>
+    <p class="disp_user_info">UserNAME : {{ user_name }}</p>
+    {% for tweet in tweets %}
+      {% if tweet.text != '' %}
+        <div class="disp_tweet" >
+          <div class="disp_text" >
+            {% if "time_stamp" in tweet %}
+              <p>Time:{{ tweet["time_stamp"] }} / Retweet:{{ tweet["retweet"] }} / Like:{{ tweet["like"] }}</p>
+            {% endif %}
+            <p>{{ tweet["text"] }}</p>
+          </div>
+          <div class="disp_media_url">
+            {% if '/video/' in tweet['media_url'] %}
+              <div id="media_container{{ tweet['tweet_count'] }}">
+                <script>
+                    var container = document.getElementById("media_container{{ tweet['tweet_count'] }}");
+                    twttr.widgets.createVideo("{{ tweet['tweet_id'] }}", container, {lang:"ja"});
+                </script>
+              </div>
+            {% elif '/photo/' in tweet['media_url'] %}
+              <div id="media_container{{ tweet['tweet_count'] }}">
+                <script>
+                    var container = document.getElementById("media_container{{ tweet['tweet_count'] }}");
+                    twttr.widgets.createTweet("{{ tweet['tweet_id'] }}", container, {status:"hidden", lang:"ja"});
+                </script>
+              </div>
+            {% else %}
+            {% endif %}
+            <p><a href="{{ tweet['media_url'] }}">{{ tweet["media_url"] }}</a></p>
+          </div>
+            <p>
+              <textarea id="tweet_content{{ tweet["tweet_count"] }}" readonly>{{ tweet["text"] }}&#13;#{{ tweet["random_hash_tag"] }}{% if tweet.media_url != '' %}&#13;{% endif %}{{ tweet["media_url"] }}</textarea>
+              <input type="button" id="{{ tweet["tweet_count"] }}" value="Tweetをコピー" onclick="copyTweet(this);" />
+            </p>
+        </div>
+      {% endif %}
+    {% endfor %}
+    <script>
+        function copyTweet(button_id) {
+            /* ボタンIDの取得 */
+            var id_value = button_id.id;
+            /* ツイートを変数に格納 */
+            var copy_tweet = document.getElementById('tweet_content' + id_value);
+            var range = document.createRange();
+            range.selectNode(copy_tweet);
+            /* ツイートを選択状態にする */
+            window.getSelection().addRange(range);
+            /* 選択した対象をクリップボードにコピー */
+            document.execCommand("Copy");
+            alert("Copied!")
+            /* 選択状態の解除 */
+            window.getSelection().removeAllRanges();
+        }
+    </script>
+  </body>
+</html>

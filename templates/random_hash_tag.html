@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <link rel="stylesheet" type="text/css" href="../static/styles/main.css" />
+  </head>
+  <body>
+    <h2>ランダムハッシュタグ設定</h2>
+    <a href="/">Topに戻る</a>
+    <!-- 10個のハッシュタグの管理 -->
+    {% for row in range(0, 10) %}
+      <p>
+        <!-- 各ハッシュタグのナンバー -->
+        {{ row + 1 }} : 
+        {{ random_hash_tag_list[row] }}
+      </p>
+      <p>
+        <form action="/" method="POST">
+          <input type="text" name="hash_tag_text" placeholder="{{ random_hash_tag_list[row] }}" />
+          <input type="hidden" name="hash_tag_index" value="{{ row }}">
+          <input type="submit" id="botton_random_hash_tag" value="登録" />
+        </form>
+      </p>
+    {% endfor %}
+  </body>
+</html>
